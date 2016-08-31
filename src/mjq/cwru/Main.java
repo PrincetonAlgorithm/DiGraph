@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class Main {
 
@@ -118,5 +119,33 @@ public class Main {
                 }
             }
         }
+    }
+
+    public class DepthFirstOrder {
+        private boolean[] marked;
+        private Stack<Integer> reversePost;
+
+        public DepthFirstOrder(DiGraph G) {
+            marked = new boolean[G.V()];
+            reversePost = new Stack<Integer>();
+            for (int v = 0; v < G.V(); v++) {
+
+            }
+        }
+
+        private void dfs(DiGraph G, int v) {
+            marked[v] = true;
+            for (int w : G.adj(v)) {
+                if (!marked[w]) {
+                    dfs(G, w);
+                }
+            }
+            reversePost.push(v);
+        }
+
+        public Iterable<Integer> reversePost() {
+            return reversePost;
+        }
+
     }
 }
