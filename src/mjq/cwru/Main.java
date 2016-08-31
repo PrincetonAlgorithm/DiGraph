@@ -121,6 +121,7 @@ public class Main {
         }
     }
 
+    //reverse DFS post-order of a DAG is a topological order
     public class DepthFirstOrder {
         private boolean[] marked;
         private Stack<Integer> reversePost;
@@ -145,6 +146,40 @@ public class Main {
 
         public Iterable<Integer> reversePost() {
             return reversePost;
+        }
+
+        public class StronglyConnectedComponent {
+            private boolean[] marked;
+            private int[] id;
+            private int count = 0;
+
+            public StronglyConnectedComponent(DiGraph G) {
+                marked = new boolean[G.V()];
+                id = new int[G.V()];
+
+                DepthFirstOrder dfo = new DepthFirstOrder(G);
+                for (int v : dfo.reversePost()) {
+                    if (!marked[v]) {
+                        dfs(G, v);
+                        count++;
+                    }
+                }
+            }
+
+            private void dfs(DiGraph G, int v) {
+                marked[v] = true;
+                id[v] = count;
+                for (int w : G.adj(v)) {
+                    if (!marked[w]) {
+                        dfs(G, w);
+                    }
+                }
+            }
+
+            public boolean stronglyConnected(int v, int w) {
+                return id[v] == id[w];
+            }
+
         }
 
     }
